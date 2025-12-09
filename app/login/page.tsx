@@ -15,7 +15,7 @@ export default function LoginPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/home');
+      //router.push('/home');
     }
   }, [isAuthenticated, router]);
 
@@ -41,7 +41,7 @@ export default function LoginPage() {
       }
 
       login(result.user.username);
-      router.push('/home');
+      router.push('/show/timeline');
 
     } catch (err) {
       setError('An error occurred. Please try again.');

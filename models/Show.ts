@@ -71,16 +71,8 @@ const showSchema = new Schema<IShow>({
       type: String,
       required: true
     },
-    overview: {
-      type: String,
-      required: true
-    },
     episode_count: {
       type: Number,
-      required: true
-    },
-    air_date: {
-      type: String,
       required: true
     },
     episodes: [{
@@ -89,10 +81,6 @@ const showSchema = new Schema<IShow>({
         required: true
       },
       name: {
-        type: String,
-        required: true
-      },
-      overview: {
         type: String,
         required: true
       },
@@ -106,10 +94,6 @@ const showSchema = new Schema<IShow>({
     type: String,
     required: true
   },
-  tagline: {
-    type: String,
-    required: true
-  }
 }, {
   timestamps: true
 });

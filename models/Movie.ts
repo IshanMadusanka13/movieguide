@@ -44,14 +44,6 @@ const movieSchema = new Schema<IMovie>({
   runtime: {
     type: Number,
     required: true
-  },
-  status: {
-    type: String,
-    required: true
-  },
-  tagline: {
-    type: String,
-    required: true
   }
 }, {
   timestamps: true

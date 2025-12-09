@@ -12,7 +12,7 @@ interface IWatchedSeason {
 
 export interface IWatchedShow extends Document {
   user_id: string;
-  show_id: number;
+  id: number;
   seasons: IWatchedSeason[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -24,7 +24,7 @@ const watchedShowSchema = new Schema<IWatchedShow>({
     required: true,
     index: true
   },
-  show_id: {
+  id: {
     type: Number,
     required: true,
     index: true
