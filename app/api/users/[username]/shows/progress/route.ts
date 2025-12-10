@@ -42,8 +42,8 @@ export async function GET(
       let watchedEpisodeCount = 0;
       const watchedEpisodesSet = new Set<string>();
 
-      watchedShow.seasons.forEach(watchedSeason => {
-        watchedSeason.episodes.forEach(watchedEpisode => {
+      watchedShow.seasons.forEach((watchedSeason: any) => {
+        watchedSeason.episodes.forEach((watchedEpisode: any) => {
           if (watchedEpisode.watched_at) {
             const key = `S${watchedSeason.season_number}E${watchedEpisode.episode_number}`;
             watchedEpisodesSet.add(key);
@@ -56,10 +56,10 @@ export async function GET(
       let nextEpisode = null;
       let foundNext = false;
 
-      for (const season of show.seasons.sort((a, b) => a.season_number - b.season_number)) {
+      for (const season of show.seasons.sort((a: any, b: any) => a.season_number - b.season_number)) {
         if (foundNext) break;
         
-        const sortedEpisodes = season.episodes.sort((a, b) => a.episode_number - b.episode_number);
+        const sortedEpisodes = season.episodes.sort((a: any, b: any) => a.episode_number - b.episode_number);
         
         for (const episode of sortedEpisodes) {
           const key = `S${season.season_number}E${episode.episode_number}`;
@@ -89,7 +89,7 @@ export async function GET(
         status: show.status,
         is_completed: isCompleted
       };
-    }).filter(Boolean); // Remove null entries
+    }).filter((item): item is NonNullable<typeof item> => item !== null); // Remove null entries
 
     // Sort: in-progress shows first (by progress %), then completed shows (by name)
     result.sort((a, b) => {

@@ -62,14 +62,14 @@ export async function GET(request: NextRequest) {
     watchedShows.forEach(watchedShow => {
       const show = showMap.get(watchedShow.id);
       if (show) {
-        watchedShow.seasons.forEach(watchedSeason => {
+        watchedShow.seasons.forEach((watchedSeason: any) => {
           episodesWatched += watchedSeason.episodes.length;
 
           // Find the corresponding season in the show
-          const season = show.seasons.find(s => s.season_number === watchedSeason.season_number);
+          const season = show.seasons.find((s: any) => s.season_number === watchedSeason.season_number);
           if (season) {
-            watchedSeason.episodes.forEach(watchedEpisode => {
-              const episode = season.episodes.find(e => e.episode_number === watchedEpisode.episode_number);
+            watchedSeason.episodes.forEach((watchedEpisode: any) => {
+              const episode = season.episodes.find((e: any) => e.episode_number === watchedEpisode.episode_number);
               if (episode && episode.runtime) {
                 totalShowTime += episode.runtime;
               }
@@ -103,11 +103,11 @@ export async function GET(request: NextRequest) {
       if (!show) continue;
 
       for (const watchedSeason of watchedShow.seasons) {
-        const season = show.seasons.find(s => s.season_number === watchedSeason.season_number);
+        const season = show.seasons.find((s: any) => s.season_number === watchedSeason.season_number);
         if (!season) continue;
 
         for (const watchedEpisode of watchedSeason.episodes) {
-          const episode = season.episodes.find(e => e.episode_number === watchedEpisode.episode_number);
+          const episode = season.episodes.find((e: any) => e.episode_number === watchedEpisode.episode_number);
           if (!episode) continue;
 
           recentEpisodeData.push({

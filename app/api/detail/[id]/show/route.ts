@@ -338,7 +338,7 @@ export async function POST(
 
     // Check if episode is already marked as watched
     const seasonIndex = watchedShow.seasons.findIndex(
-      s => s.season_number === season_number
+      (s: any) => s.season_number === season_number
     );
 
     if (seasonIndex === -1) {
@@ -353,7 +353,7 @@ export async function POST(
     } else {
       // Season exists, check if episode is already watched
       const episodeIndex = watchedShow.seasons[seasonIndex].episodes.findIndex(
-        e => e.episode_number === episode_number
+        (e: any) => e.episode_number === episode_number
       );
 
       if (episodeIndex === -1) {

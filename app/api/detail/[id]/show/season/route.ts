@@ -125,7 +125,7 @@ export async function POST(
     }
 
     // Find the season in the show
-    const season = show.seasons.find(s => s.season_number === season_number);
+    const season = show.seasons.find((s: any) => s.season_number === season_number);
     if (!season) {
       return NextResponse.json(
         { success: false, error: 'Season not found' },
@@ -149,19 +149,19 @@ export async function POST(
 
     // Find or create the season in watched show
     const watchedSeasonIndex = watchedShow.seasons.findIndex(
-      s => s.season_number === season_number
+      (s: any) => s.season_number === season_number
     );
 
     const currentTime = new Date();
     
     // Get all episode numbers from the show's season
-    const allEpisodeNumbers = season.episodes.map(ep => ep.episode_number);
+    const allEpisodeNumbers = season.episodes.map((ep: any) => ep.episode_number);
 
     if (watchedSeasonIndex === -1) {
       // Season doesn't exist in watched show, add all episodes
       watchedShow.seasons.push({
         season_number,
-        episodes: allEpisodeNumbers.map(epNum => ({
+        episodes: allEpisodeNumbers.map((epNum: any) => ({
           episode_number: epNum,
           watched_at: currentTime
         }))
@@ -169,15 +169,15 @@ export async function POST(
     } else {
       // Season exists, find unwatched episodes
       const watchedEpisodeNumbers = watchedShow.seasons[watchedSeasonIndex].episodes.map(
-        e => e.episode_number
+        (e: any) => e.episode_number
       );
 
       const unwatchedEpisodeNumbers = allEpisodeNumbers.filter(
-        epNum => !watchedEpisodeNumbers.includes(epNum)
+        (epNum: any) => !watchedEpisodeNumbers.includes(epNum)
       );
 
       // Add unwatched episodes
-      unwatchedEpisodeNumbers.forEach(epNum => {
+      unwatchedEpisodeNumbers.forEach((epNum: any) => {
         watchedShow.seasons[watchedSeasonIndex].episodes.push({
           episode_number: epNum,
           watched_at: currentTime
