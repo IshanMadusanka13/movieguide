@@ -137,6 +137,7 @@ export default function ShowProgressPage() {
               {inProgressShows.map((show) => (
                 <div 
                   key={show.show_id}
+                  onClick={() => router.push(`/show/${show.show_id}`)}
                   className="bg-slate-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-indigo-500/20 hover:border-indigo-500/40 transition-all shadow-xl"
                 >
                   <div className="flex flex-col md:flex-row">

@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Search, Film, Tv, Menu, X, Clock, TrendingUp } from 'lucide-react';
+import { Search, Film, Tv, Menu, X, Clock, TrendingUp, Compass } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [discoverDropdown, setDiscoverDropdown] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, logout } = useAuth();
@@ -18,6 +19,11 @@ const Navbar = () => {
     { name: 'Movie', icon: Film, href: '/movie/timeline' },
   ];
 
+  const discoverLinks = [
+    { name: 'Movie', icon: Film, href: '/movie/discover' },
+    { name: 'Show', icon: Tv, href: '/show/discover' },
+  ];
+
   const showSubLinks = [
     { name: 'TimeLine', icon: Clock, href: '/show/timeline' },
     { name: 'Progress', icon: TrendingUp, href: '/show/progress' },
@@ -25,6 +31,10 @@ const Navbar = () => {
 
   const handleShowClick = () => {
     setShowDropdown(!showDropdown);
+  };
+
+  const handleDiscoverClick = () => {
+    setDiscoverDropdown(!discoverDropdown);
   };
 
   const handleLogout = () => {
@@ -50,6 +60,37 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Discover Dropdown */}
+            <div className="relative">
+              <button
+                onClick={handleDiscoverClick}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition ${
+                  pathname.startsWith('/movie/discover') || pathname.startsWith('/show/discover')
+                    ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30'
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                }`}
+              >
+                <Compass className="w-5 h-5" />
+                <span>Discover</span>
+              </button>
+
+              {discoverDropdown && (
+                <div className="absolute left-0 mt-2 w-48 bg-slate-800/90 backdrop-blur-lg rounded-xl border border-purple-500/20 shadow-lg py-2 z-50">
+                  {discoverLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 transition group"
+                      onClick={() => setDiscoverDropdown(false)}
+                    >
+                      <link.icon className="w-4 h-4 group-hover:text-emerald-400" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -70,7 +111,7 @@ const Navbar = () => {
               <button
                 onClick={handleShowClick}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition ${
-                  pathname.startsWith('/timeline') || pathname.startsWith('/progress')
+                  pathname.startsWith('/show/timeline') || pathname.startsWith('/show/progress')
                     ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
                     : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
                 }`}
@@ -128,6 +169,27 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-slate-800/90 backdrop-blur-lg rounded-xl border border-purple-500/20 my-2 py-4">
             <div className="flex flex-col space-y-2 px-4">
+              {/* Discover Section in Mobile */}
+              <div className="px-4 py-2">
+                <div className="text-slate-400 text-sm font-medium mb-2 flex items-center space-x-2">
+                  <Compass className="w-4 h-4" />
+                  <span>Discover</span>
+                </div>
+                <div className="ml-4 space-y-2">
+                  {discoverLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="flex items-center space-x-3 px-4 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 transition"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <link.icon className="w-4 h-4" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -179,11 +241,14 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Close dropdown when clicking outside */}
-      {showDropdown && (
+      {/* Close dropdowns when clicking outside */}
+      {(showDropdown || discoverDropdown) && (
         <div
           className="fixed inset-0 z-40"
-          onClick={() => setShowDropdown(false)}
+          onClick={() => {
+            setShowDropdown(false);
+            setDiscoverDropdown(false);
+          }}
         />
       )}
     </nav>
